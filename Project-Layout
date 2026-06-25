@@ -1,0 +1,83 @@
+money-laundering-detection/
+├── config/
+│ └── config.yaml # paths, hyper-parameters, seeds
+├── data/
+│ ├── raw/ # place the Kaggle CSV here
+│ ├── processed/ # train/val/test splits (generated)
+│ ├── sample/ # small bundled sample for quick tests
+│ └── README.md # data dictionary
+├── models_saved/ # trained model + feature list (generated)
+├── notebooks/
+│ ├── EDA.ipynb
+│ ├── model_training.ipynb
+│ └── results_analysis.ipynb
+├── results/ # figures & metrics (generated)
+├── scripts/
+│ ├── run_pipeline.sh # macOS / Linux one-shot runner
+│ ├── run_pipeline.bat # Windows equivalent
+│ ├── download_data.sh # Kaggle CLI helper (macOS / Linux)
+│ └── download_data.bat # Kaggle CLI helper (Windows)
+├── src/
+│ ├── preprocessing/ # data loading & cleaning
+│ ├── feature_engineering/ # transaction feature extraction & ratios
+│ ├── models/ # Random Forest factory
+│ ├── training/ # end-to-end training driver
+│ ├── evaluation/ # metrics + plots
+│ ├── utils/ # logger, config loader
+│ └── predict.py # command-line predictor
+├── tests/ # pytest unit tests (coverage ≥ 60 %)
+├── requirements.txt
+├── SOURCES.txt # every paper / link / dataset cited
+├── LICENSE
+└── README.md # you are here
+
+---
+
+## Dataset
+
+We use the Kaggle dataset **“Synthetic Financial Datasets For Fraud Detection”** by NTNU.
+
+> <https://www.kaggle.com/datasets/ealaxi/paysim1>
+
+The file is **`AML_Fraud_full.csv`** — 10 000 rows, 11 columns (transaction type, amounts, balances, and a `isFraud` target: 1 = fraudulent / money laundering, 0 = legitimate).
+
+### Where to put the CSV
+
+Download the CSV and place it in:
+
+data/raw/AML_Fraud_full.csv
+
+If the file is missing, the pipeline automatically falls back to the bundled 200-row sample at `data/sample/sample_aml.csv` so you can still run every command end-to-end.
+
+For detailed licensing and a field-by-field data dictionary, see [`data/README.md`](data/README.md).
+
+---
+
+## Quick start (Windows)
+
+All commands below assume **Python 3.10 or newer**.
+
+```bash
+# 1. Clone / unzip the project, then cd into it
+cd money-laundering-detection
+
+# 2. Create and activate a virtual environment
+python3 -m venv .venv
+source .venv/bin/activate
+
+# 3. Install the dependencies
+pip install --upgrade pip
+pip install -r requirements.txt
+
+# 4. (Optional) place the Kaggle CSV
+#    Download 'AML_Fraud_full.csv' from Kaggle and drop it in
+#    data/raw/.  If you skip this step the bundled sample is used.
+
+# 5. Train the model (takes ~10-30 seconds on a laptop)
+python -m src.training.train
+
+# 6. Make a prediction for a transaction
+python -m src.predict --amount 1000000 --type "TRANSFER"
+
+A one-shot wrapper is available at scripts/run_pipeline.sh:
+bash scripts/run_pipeline.sh
