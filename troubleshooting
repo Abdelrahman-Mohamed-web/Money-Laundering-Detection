@@ -1,0 +1,5 @@
+ModuleNotFoundError: No module named 'src'
+ run the command from the project root like this one: python -m src.training.train
+FileNotFoundError: … AML_Fraud_full.csv
+: The dataset is not in data/raw/. Either download it from the Kaggle link above or let the pipeline use the bundled sample
+(this will probably log a warning and continue)
