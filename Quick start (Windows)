@@ -1,0 +1,25 @@
+this is for powershell
+# 1. Open PowerShell in the project folder
+cd money-laundering-detection
+
+# 2. Create and activate a virtual environment
+py -3 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+
+# If PowerShell blocks the activation script, run this once:
+#   Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+
+# 3. Install the dependencies
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+
+# 4. (Optional) place the Kaggle CSV in data\raw\AML_Fraud_full.csv
+
+# 5. Train the model
+python -m src.training.train
+
+# 6. Make a prediction for a transaction
+python -m src.predict --amount 1000000 --type "TRANSFER"
+
+A one-shot batch wrapper is available at scripts\run_pipeline.bat:
+scripts\run_pipeline.bat
