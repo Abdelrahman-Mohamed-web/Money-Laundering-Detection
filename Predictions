@@ -1,0 +1,14 @@
+Single transaction:
+python -m src.predict --amount 1000000 --type "TRANSFER"
+
+Output:
+{
+  "amount": 1000000,
+  "type": "TRANSFER",
+  "prediction": "fraud",
+  "probability": 0.97
+}
+
+Batch CSV:
+python -m src.predict --csv data/raw/AML_Fraud_full.csv
+AML_Fraud_full_predictions.csv is created next to the input file
