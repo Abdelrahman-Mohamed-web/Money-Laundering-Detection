@@ -1,0 +1,5 @@
+From the project root:
+pytest -v
+measure coverage:
+pytest --cov=src --cov-report=term-missing
+Tests cover the feature extractor, preprocessing, and the model pipeline. On a reference run they report > 70 % line coverage.
