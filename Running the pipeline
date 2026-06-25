@@ -1,0 +1,27 @@
+The end-to-end pipeline is exposed as a single Python module:
+python -m src.training.train
+
+What it does, step by step:
+Loads the CSV from data/raw/ (or the bundled sample).
+Cleans missing / duplicate rows.
+Adds three engineered ratio features (errorBalanceOrig, errorBalanceDest, amountToBalanceRatio).
+Stratified 70 / 15 / 15 train / validation / test split.
+Fits a Random Forest pipeline (StandardScaler → Random Forest).
+Performs 5-fold stratified cross-validation on the training set.
+Evaluates on train, validation and test.
+Writes artefacts:
+models_saved/aml_rf_model.joblib — serialised model
+models_saved/feature_columns.json — canonical feature order
+data/processed/{train,val,test}.csv — persisted splits
+results/metrics_summary.json — all metrics in one file
+results/confusion_matrix.png
+results/roc_curve.png
+results/pr_curve.png
+results/feature_importance.png
+results/classification_report.txt
+Configuration (hyper-parameters, paths, seeds) lives in
+config/config.yaml. Edit that file rather
+than hard-coding values in source.
+
+The configuration is in here:
+config/config.yaml
